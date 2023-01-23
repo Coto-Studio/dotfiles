@@ -1,5 +1,24 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: dewittn_vm
+
+  vars:
+    dotfiles:
+      repo: ""
+      dest: ""
+
   roles:
-    - dotfiles
+    - ../../
+
+  tasks:
+    - include_role:
+        name: ../../
+
+  post_tasks:
+    - name: Remove dotfiles dir
+      file:
+        path: "~/{{ dotfiles.dest }}"
+        state: absent
+    - name: Remove controlmaster dir
+      file:
+        path: "~/{{ dotfiles.dest }}"
+        state: absent

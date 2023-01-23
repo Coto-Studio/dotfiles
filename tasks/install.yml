@@ -1,0 +1,9 @@
+---
+- name: Checkout dotfiles
+  command:
+    cmd: "git --git-dir=$HOME/{{ dotfiles.dest }} --work-tree=$HOME checkout -f"
+
+- name: Create controlmasters dir
+  file:
+    path: ~/.ssh/controlmasters
+    state: directory
