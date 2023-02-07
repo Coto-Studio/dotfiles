@@ -5,12 +5,6 @@
     path: "{{ dotfiles['dest'] }}"
   register: dest_data
 
-- name: Remove 1Password ssh agent
-  file:
-    path: ~/.1password/agent.sock
-    state: absent
-  when: ansible_distribution == "MacOSX"
-
 - name: Update dotifles
   git:
     repo: "{{ dotfiles.repo }}"
@@ -22,21 +16,3 @@
   include_tasks:
     file: install.yml
   when: dest_data['stat']['exists'] == false
-
-- name: Check if 1Password ssh agent is active
-  stat:
-    path: ~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
-  register: one_password_agent
-
-- name: Create ~/.1password/ if needed
-  file:
-    path: ~/.1password/
-    state: directory
-  when: one_password_agent.stat.exists
-
-- name: Relink 1Password ssh agent
-  file:
-    path: ~/.1password/agent.sock
-    src: ~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
-    state: link
-  when: one_password_agent.stat.exists
