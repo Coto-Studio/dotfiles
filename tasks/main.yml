@@ -9,6 +9,7 @@
   git:
     repo: "{{ dotfiles.repo }}"
     dest: "~/{{ dotfiles.dest }}"
+    key_file: "{{ dotfiles.key_file | default(omit) }}"
     bare: true
     update: true
 
